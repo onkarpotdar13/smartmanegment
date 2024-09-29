@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -53,9 +54,9 @@ public class SecurityConfiguration {
             //
             formLogin.loginPage("/login");
             formLogin.loginProcessingUrl("/authenticate");
-            // formLogin.successForwardUrl("/user/contact");
+            formLogin.successForwardUrl("/user/dashboard");
             
-            formLogin.defaultSuccessUrl("/home");
+            // formLogin.defaultSuccessUrl("/home");
             // formLogin.failureForwardUrl("/login?error=true");
 
             formLogin.usernameParameter("email");
@@ -63,6 +64,14 @@ public class SecurityConfiguration {
 
            
 
+        });
+
+        // logout operation
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+
+        httpSecurity.logout(logoutForm -> {
+            logoutForm.logoutUrl("/do-logout");
+            logoutForm.logoutSuccessUrl("/login?logout=true");
         });
 
        

@@ -8,15 +8,35 @@
 <body>
   <div id="content">
 
-    <div class="flex justify-center items-center min-h-screen">
+    <div class="flex justify-center items-baseline min-h-screen">
       <div class="w-full max-w-md bg-white hover:bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg p-6 space-y-4">
         <h1 
           class="text-center text-2xl font-bold text-gray-800 dark:text-gray-100">
           Login to Your Account
         </h1>
 
-        <!-- Error Message Placeholder -->
-        <div id="alert-container"></div>
+        <!-- Error Message -->
+        <div 
+          class="flex items-center justify-center my-3 text-red-600 dark:text-red-400"
+          role="alert" 
+          th:if="${param.error}">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 14v2m0-10v6"></path>
+          </svg>
+          <span class="font-semibold">Invalid username and password.</span>
+        </div>
+
+        <!-- Logout Message -->
+        <div 
+          class="flex items-center justify-center my-3 text-green-600 dark:text-green-400"
+          role="alert" 
+          th:if="${param.logout}">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M5 12h14m-7-7v14"></path>
+          </svg>
+          <span class="font-semibold">You have been logged out.</span>
+        </div>
+
 
         <form 
           method="POST" 
@@ -94,41 +114,6 @@
         </p>
       </div>
     </div>
-
-    <!-- dynamic error message -->
-    <div 
-      id="alert-container" 
-      class="hidden">
-      <div 
-        class="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
-        role="alert">
-        <svg 
-          aria-hidden="true" 
-          class="flex-shrink-0 inline w-5 h-5 mr-3" 
-          fill="currentColor" 
-          viewBox="0 0 20 20">
-          <path 
-            fill-rule="evenodd"
-            d="M18 13a1 1 0 01-1 1H3a1 1 0 110-2h14a1 1 0 011 1zM2.293 4.293a1 1 0 011.414 0L10 10.586l6.293-6.293a1 1 0 111.414 1.414l-7 7a1 1 0 01-1.414 0l-7-7a1 1 0 010-1.414z"
-            clip-rule="evenodd">
-          </path>
-        </svg>
-          <span 
-            class="sr-only">
-            Error
-          </span>
-        <div>
-          <span 
-            class="font-medium"
-            >
-            Login failed!
-          </span> 
-          Please check your email and password.
-        </div>
-      </div>
-    </div>
-
-
   </div>
   <script>
     console.log("Login page");
