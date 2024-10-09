@@ -1,5 +1,7 @@
 package com.scm.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,10 +9,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.scm.enitities.User;
+import com.scm.entities.Role;
+import com.scm.entities.User;
 import com.scm.form.UserForm;
 import com.scm.helper.Message;
 import com.scm.helper.MessageType;
+import com.scm.repositories.RoleRepository;
 import com.scm.services.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,6 +30,9 @@ public class PageController {
 
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private RoleRepository roleRepository;
 
   @RequestMapping("/home")
   public String home(Model model)
@@ -85,6 +92,10 @@ public class PageController {
       return "register";
     }
 
+    if(bindingResult.hasErrors()){
+      return "login";
+    }
+
     // save to database
 
     // userservice and take data form user form and save in user
@@ -104,6 +115,13 @@ public class PageController {
     user.setUserPhoneNumber(userForm.getUserPhoneNumber());
     user.setUserProfilePic("https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1726963200&semt=ais_hybrid");
     user.setAbout(userForm.getAbout());
+
+    // Fetch the selected role
+    String selectedRoleName = userForm.getRole(); // e.g., "ROLE_PATIENT"
+    Role selectedRole = roleRepository.findByRoleName(selectedRoleName)
+            .orElseThrow(() -> new RuntimeException("Selected Role not found: " + selectedRoleName));
+
+    user.setRoles(List.of(selectedRole));
 
     User savedUser = userService.saveUser(user);
 

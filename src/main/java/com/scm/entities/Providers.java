@@ -1,4 +1,4 @@
-package com.scm.enitities;
+package com.scm.entities;
 
 public enum Providers {
 

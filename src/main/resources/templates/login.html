@@ -23,7 +23,7 @@
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 14v2m0-10v6"></path>
           </svg>
-          <span class="font-semibold">Invalid username and password.</span>
+          <span class="font-semibold">Invalid Credentials and Role.</span>
         </div>
 
         <!-- Logout Message -->
@@ -41,7 +41,8 @@
         <form 
           method="POST" 
           data-th-action="@{'/authenticate'}"
-          class="space-y-4">
+          class="space-y-4"
+          novalidate>
             <!-- Email -->
             <div>
               <label 
@@ -74,19 +75,36 @@
                 placeholder="Enter your password">
             </div>
 
-            <!-- Remember Me -->
+            <!-- Role Selection -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Role</label>
+      <div class="flex items-center space-x-4">
+          <label class="inline-flex items-center cursor-pointer">
+              <input type="radio" name="role" value="ROLE_USER" class="form-radio text-green-600 dark:text-green-400">
+              <span class="ml-2 text-gray-900 dark:text-gray-100">User</span>
+          </label>
+
+          <label class="inline-flex items-center cursor-pointer">
+              <input type="radio" name="role" value="ROLE_PATIENT" class="form-radio text-green-600 dark:text-green-400">
+              <span class="ml-2 text-gray-900 dark:text-gray-100">Patient</span>
+          </label>
+
+          <label class="inline-flex items-center cursor-pointer">
+              <input type="radio" name="role" value="ROLE_DOCTOR" class="form-radio text-green-600 dark:text-green-400">
+              <span class="ml-2 text-gray-900 dark:text-gray-100">Doctor</span>
+          </label>
+          
+          <label class="inline-flex items-center cursor-pointer">
+              <input type="radio" name="role" value="ROLE_ADMIN" class="form-radio text-green-600 dark:text-green-400">
+              <span class="ml-2 text-gray-900 dark:text-gray-100">Admin</span>
+          </label>
+
+      </div>
+  </div>
+
+            <!-- Forgot passwor -->
             <div 
               class="flex items-center justify-between">
-              <label 
-                class="inline-flex items-center text-sm text-gray-600 dark:text-gray-300">
-                <input 
-                  type="checkbox"
-                  class="form-checkbox rounded text-green-600 focus:ring-green-500 dark:focus:ring-green-500">
-                <span 
-                  class="ml-2">
-                  Remember me
-                </span>
-              </label>
               <a 
                 href="#" 
                 class="text-sm text-blue-600 dark:text-blue-400 hover:underline">

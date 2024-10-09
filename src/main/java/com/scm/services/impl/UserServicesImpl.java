@@ -3,6 +3,7 @@ package com.scm.services.impl;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.scm.enitities.User;
-import com.scm.helper.AppConstant;
+import com.scm.entities.Role;
+import com.scm.entities.User;
 import com.scm.helper.ResourceNotFoundException;
+import com.scm.repositories.RoleRepository;
 import com.scm.repositories.UserRepository;
 import com.scm.services.UserService;
 
@@ -24,6 +26,10 @@ public class UserServicesImpl implements UserService{
 
   @Autowired
   private PasswordEncoder passwordEncoder;
+
+  @Autowired
+  private RoleRepository roleRepository;
+
 
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -37,7 +43,22 @@ public class UserServicesImpl implements UserService{
     user.setUserPassword(passwordEncoder.encode(user.getPassword()));
 
     //set role
-    user.setRoleList(List.of(AppConstant.ROLE_USER));
+    
+    List<Role> userRoles = user.getRoles();
+    if(userRoles == null || userRoles.isEmpty()){
+      throw new RuntimeException("User must have at least one role.");
+    }
+
+    // Verify that each role exists in the database
+    List<Role> verifiedRoles = userRoles.stream()
+            .map(role -> roleRepository.findByRoleName(role.getRoleName())
+                    .orElseThrow(() -> new RuntimeException("Role not found: " + role.getRoleName())))
+            .collect(Collectors.toList());
+
+    // Assign verified roles to the user
+    user.setRoles(verifiedRoles);
+
+    // Save the user
     return userRepository.save(user);
   }
 

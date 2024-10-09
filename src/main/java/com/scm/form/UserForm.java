@@ -42,4 +42,7 @@ public class UserForm {
   @Size(max = 50, message = "About section should not exceed 50 characters")
   private String about;
 
+  @NotBlank(message = "Role is required")
+  private String role; 
+
 }

@@ -35,9 +35,9 @@
 
           <!-- this is form  -->
           <form 
-            data-th-action="@{'/do-register'}" 
+            th:action="@{'/do-register'}" 
             method="post" 
-            data-th-object="${userForm}" 
+            th:object="${userForm}" 
             class="mt-5" 
             novalidate>
 
@@ -157,6 +157,37 @@
                 class="text-sm text-red-600 mt-1">
               </p>
             </div>
+
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Role:</label>
+
+              <!-- Role: User -->
+              <div class="flex items-center space-x-4">
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="role" value="ROLE_USER" class="form-radio text-green-600 dark:text-green-400">
+                    <span class="ml-2 text-gray-900 dark:text-gray-100">User</span>
+                </label>
+            
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="role" value="ROLE_PATIENT" class="form-radio text-green-600 dark:text-green-400">
+                    <span class="ml-2 text-gray-900 dark:text-gray-100">Patient</span>
+                </label>
+                
+                <label class="inline-flex items-center cursor-pointer">
+                  <input type="radio" name="role" value="ROLE_DOCTOR" class="form-radio text-green-600 dark:text-green-400">
+                  <span class="ml-2 text-gray-900 dark:text-gray-100">Doctor</span>
+                </label>
+
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="role" value="ROLE_ADMIN" class="form-radio text-green-600 dark:text-green-400">
+                    <span class="ml-2 text-gray-900 dark:text-gray-100">Admin</span>
+                </label>
+                <p
+                data-th-if="${#fields.hasErrors('role')}"
+                data-th-errors="*{role}"
+                class="text-sm text-red-600 mt-1">
+                </p>
+            </div>
+  
 
             <!-- button -->
 
